@@ -8,7 +8,7 @@
 	</dynamics>
 	<samples sample_time="0.1" time_units="seconds"></samples>
 	<stairs landing="250">
-		<dimensions N="5" w="70" h="30" d="150"/>
+		<dimensions N="5" w="70" h="-20" d="150"/>
 	</stairs>
 </StairsClimbing>
 

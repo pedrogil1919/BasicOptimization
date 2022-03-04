@@ -3,13 +3,20 @@ Created on 4 mar. 2022
 
 @author: pedrogil
 '''
+# NOTE: To include the other project as a external library:
+# - Project/Properties:
+#   - PyDev - PYTHONPATH
+#     - tAB External Libraries -> Add source folder
 
-from simulator.time import ComputeTime
-
-# Imports needed for the testing block.
+import scipy.optimize
 import sys
+
+
+from simulator.simulator import Simulator
 from physics.stairs import Stair
 import readXML
+
+from optimize.compute_time import ComputeTime
 
 # Open and check settings file.
 try:
@@ -17,19 +24,25 @@ try:
 except Exception:
     settings_name = "settings.xml"
 
-# Read stairs data and create physical stairs object.
-stairs_list, landing = readXML.read_stairs(settings_name)
-stair = Stair(stairs_list, landing)
-
-# for st in stairs_list:
-#     st['h'] = -st['h']
-# stair2 = Stair(stairs_list, landing)
-# stair = (stair, stair2)
-
-# Read structure dimensions and create structure.
-structure_size, wheels_radius = readXML.read_structure(settings_name)
 # Read simulator data.
 dynamics_data, sample_data = readXML.read_dynamics(settings_name)
-compute_time = ComputeTime(wheels_radius, stair, dynamics_data, sample_data)
-total = compute_time.compute(structure_size)
-print("Total:", total, sample_data['time_units'])
+simulator = Simulator(dynamics_data, sample_data)
+# Read stairs data and create physical stairs object.
+stairs_data, landing = readXML.read_stairs(settings_name)
+stairs_list = [Stair([stair], landing) for stair in stairs_data]
+# Read structure dimensions and create structure.
+structure_size, wheels_radius = readXML.read_structure(settings_name)
+dimensions = [
+    structure_size['a'],
+    structure_size['b'],
+    structure_size['c'],
+    structure_size['d'],
+]
+print(dimensions)
+
+compute = ComputeTime(stairs_list, simulator, structure_size, wheels_radius)
+
+min = scipy.optimize.minimize(
+    compute.compute_time, dimensions, method='Nelder-Mead')
+
+print(min)
