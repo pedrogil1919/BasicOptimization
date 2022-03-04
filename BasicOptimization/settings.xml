@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<StairsClimbing>
+	<size a="40" b="60" c="40" d="50" h="2" v="4" g="40" n="30"/>
+	<wheels r1="15" r2="15" r3="10" r4="10"/>
+	<dynamics actuator_up="2.0" actuator_dw="3.0" elevate_up="0.5" 
+		elevate_dw="1.0" incline_up="0.4" incline_dw="0.8" speed="3.0" 
+		decceleration="0.18" acceleration="0.08">
+	</dynamics>
+	<samples sample_time="0.1" time_units="seconds"></samples>
+	<stairs landing="250">
+		<dimensions N="5" w="70" h="30" d="150"/>
+	</stairs>
+</StairsClimbing>
+
