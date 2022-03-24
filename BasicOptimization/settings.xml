@@ -1,16 +1,75 @@
 <?xml version="1.0"?>
 <StairsClimbing>
+	<!--
+	Structure dimension (note that a, b and c are not the actual distances
+	between actuator 1 and 2, 2 and 3, and 3 and 4 respectively, but the
+	maximum gap between the edges of the wheels 1 and 2, 2 and 3, and 3 and 4,
+	that is, for example, for parameter a, the minimum value for a is:
+	a + r1 + r2, where r1 and r2 are the radius of wheels 1 and 2. 
+	but the minimum gap between 
+	- a, b, c: minimum gap between wheels.
+	- d: Size of the actuator.
+	- h: Horizontal margin (delta h in the paper).
+	- v: Horizontal margin (delta v in the paper).
+	- g: Aditional height of the actuator (only for visualization purposes, not
+		useful).
+	- n: Maximum inclination, measured as the differences in height between 
+		actuator 1 and 4. Note that the maximum inclination depends on this
+		parameter, but also depends on the separation of the wheels, choosing
+		the more restrictive one.
+	-->
 	<size a="5.0" b="20.0" c="5.0" d="50.0" h="2.0" v="4.0" g="40.0" n="30.0">
 	</size>
+	<!--
+	Wheel radius. Can be different for each one.
+	-->
 	<wheels r1="10.0" r2="10.0" r3="10.0" r4="10.0"/>
+	<!--
+	Speeds:
+	- actuator_up: Speed for an actuator when it is elevatinr the wheel.
+	- actuator_dw: Speed for an actuator when it is taking the wheel down.
+	- elevate_up: Speed when the actuators are elevating the structure.
+	- elevate_dw: Speed when the actuators are taking the structure down.
+	- incline_up: Speed when the actuators are inclining the structure up.
+	- incline_dw: Speed when the actuators are inclining the structure down.
+	- speed: Maximum horizontal speed.
+	- acceleration: Maximum horizontal acceleration.
+	- decceleration: Maximum horizontal decceleration.
+	-->
 	<dynamics actuator_up="2.0" actuator_dw="3.0" elevate_up="0.5" 
 		elevate_dw="1.0" incline_up="0.4" incline_dw="0.8" speed="3.0" 
 		decceleration="0.18" acceleration="0.08">
 	</dynamics>
-	<optimization min="100.0" max="105.0" res="2.0" dir="/home/pedrogil/Imagenes/wheelchair/optimizacion" height="600" width="600"/>
+	<!--
+	Optimizations:
+	- min: Minimum structure size (s = a + b + c).
+ 	- max: Maximum structure size.
+	- res: Resolution of the grid. That is, the program makes a loop iterating
+		from min to max in steps of res size. Resolution is also used for the
+		grid size for parameters a and c.
+	- dir: Root directory where the contour images will be saved. If it does
+		not exist, the directory is created.
+	- height, width: Image size, in pixels.
+	-->
+	<optimization min="100.0" max="105.0" res="2.0"
+		dir="/home/pedrogil/Imagenes/wheelchair/optimizacion" 
+		height="600" width="600"/>
+	<!--
+	Not used.
+	-->
 	<samples sample_time="0.1" time_units="seconds"></samples>
+	<!--
+	Stair data:
+	- landing: initial landing length. Ensure that is large enough so that the
+		whole structure fits in this place.
+	- dimensions: steps dimension:
+		- N: number of steps.
+		- w, h: Width and height
+		- d: posterior landing length, so last step width is w+d
+	-->
 	<stairs landing="250.0">
 		<dimensions N="5" w="65.0" h="20.0" d="150.0"/>
+		<dimensions N="5" w="65.0" h="-20.0" d="150.0"/>
 	</stairs>
 </StairsClimbing>
 
