@@ -7,10 +7,13 @@ Created on 4 mar. 2022
 # - Project/Properties:
 #   - PyDev - PYTHONPATH
 #     - tAB External Libraries -> Add source folder
+
 import sys
 import os
 import numpy
 import cv2
+
+# sys.path.append("/home/pedrogil/git/Wheelchair/Structure")
 
 from simulator.simulator import Simulator
 from physics.stairs import Stair
@@ -25,6 +28,7 @@ try:
 except Exception:
     settings_name = "settings.xml"
 
+
 # Read stairs data and create physical stairs object.
 stairs_data, landing = readXML.read_stairs(settings_name)
 stairs = [Stair([stair], landing) for stair in stairs_data]
@@ -33,7 +37,7 @@ dynamics_data, sample_data = readXML.read_dynamics(settings_name)
 simulator = Simulator(dynamics_data, sample_data)
 
 # Read structure dimensions and create structure.
-structure_size, radius = readXML.read_structure(settings_name)
+units, structure_size, radius = readXML.read_structure(settings_name)
 gaps = {
     "a": structure_size["a"],
     "b": structure_size["b"],
@@ -57,12 +61,14 @@ except FileExistsError:
 
 sizes = numpy.arange(min_size, max_size + resolution, resolution)
 counter = 0
+time_title = "t (" + sample_data['time_units'] + ")"
 for s in sizes:
     print(s)
     A, C, T = compute_mesh_time(
         s, structure_size, radius, gaps, stairs, simulator, resolution)
 
-    contour_img = save_contours(A, C, T, size, 100)
+    size_title = "L = %.2f %s" % (s, units)
+    contour_img = save_contours(A, C, T, size, size_title, time_title, 100)
     aux_name = "image%05i.png" % counter
     counter += 1
     image_name = os.path.join(directory, aux_name)
