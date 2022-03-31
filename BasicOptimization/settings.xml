@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<StairsClimbing>
+<StairsClimbing units="cm">
 	<!--
 	Structure dimension (note that a, b and c are not the actual distances
 	between actuator 1 and 2, 2 and 3, and 3 and 4 respectively, but the
