@@ -65,7 +65,17 @@ def compute_mesh_time(size, structure_size, radius, gaps, stairs_list,
     gap_b = gaps['b']
     gap_c = gaps['c']
     mesh = generate_mesh_abc(size, radius, gap_a, gap_b, gap_c, resolution)
+    # If the size of the mesh in any direction is lower than five, the computation function
+    # raise an error, so, we have to check the size before compute any time.
+    if mesh.shape[0] < 5:
+        raise ValueError
+    if mesh.shape[1] < 5:
+        raise ValueError
 
+    N = numpy.count_nonzero(~numpy.isnan(mesh[:, :, 1]))
+
+    # N = mesh.shape[0] * (1 + mesh.shape[1]) / 2
+    n = 0
     # Run all the values from the mesh, and compute the time for each.
     for ABCT in mesh:
         for abct in ABCT:
@@ -81,6 +91,9 @@ def compute_mesh_time(size, structure_size, radius, gaps, stairs_list,
                     structure_size['a'] = abct[0]
                     structure_size['b'] = abct[1]
                     structure_size['c'] = abct[2]
+                    n += 1
+                    print("%i%% \t(%i /\t%i)" %
+                          ((100 * n / N), n, N), end='\r')
                     total_time = 0.0
                     for stair in stairs_list:
                         structure = base.Base(structure_size, radius, stair)
