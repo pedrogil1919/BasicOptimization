@@ -14,6 +14,7 @@ import numpy
 import cv2
 
 # sys.path.append("/home/pedrogil/git/Wheelchair/Structure")
+# sys.path.append("/home/pedrogil/workspace/optimization/Structure")
 
 from simulator.simulator import Simulator
 from physics.stairs import Stair
@@ -21,6 +22,8 @@ import readXML
 
 from optimize.compute_time import compute_mesh_time, \
     read_optimization_data, save_contours
+
+import logging
 
 # Open and check settings file.
 try:
@@ -58,6 +61,8 @@ try:
 except FileExistsError:
     # If the directory already exits, do nothing.
     pass
+
+logging.basicConfig(level=logging.ERROR, filename=directory + '/errors.log')
 
 sizes = numpy.arange(min_size, max_size + resolution, resolution)
 counter = 0

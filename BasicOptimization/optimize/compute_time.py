@@ -13,6 +13,8 @@ from xml.etree import ElementTree
 from structure import base
 from simulator.time import compute_time
 
+import logging
+
 
 def generate_mesh_abc(size, radius, gap_a, gap_b, gap_c, resolution):
     """Generate a mesh with all possible combination of dimensions
@@ -51,7 +53,7 @@ def generate_mesh_abc(size, radius, gap_a, gap_b, gap_c, resolution):
     min_b = gap_b + r2 + r3
     # And so, mask all non possible values for dimension "b" with nan.
     B[B < min_b] = numpy.nan
-    # Finally, construct an aditiona array so that the program can have all
+    # Finally, construct an aditional array so that the program can have all
     # the values in only one array.
     T = numpy.zeros(A.shape[0:2], numpy.float)
     ABCT = numpy.dstack((A, B, C, T))
@@ -100,8 +102,10 @@ def compute_mesh_time(size, structure_size, radius, gaps, stairs_list,
                         total_time += compute_time(structure, simulator)
                 except Exception:
                     total_time = numpy.nan
+                    logging.error("s: %.2f (a: %.2f, b: %.2f, c: %.2f)" %
+                                  (size, abct[0], abct[1], abct[2]))
             abct[3] = total_time
-
+    print("\n-----")
     # Extract the matrices corresponding to the a and c dimensions (b is not
     # necessary), and the time.
     A = mesh[:, :, 0]

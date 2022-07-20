@@ -18,7 +18,7 @@
 		parameter, but also depends on the separation of the wheels, choosing
 		the more restrictive one.
 	-->
-	<size a="5.0" b="20.0" c="5.0" d="50.0" h="2.0" v="4.0" g="40.0" n="30.0">
+	<size a="6.0" b="20.0" c="5.0" d="50.0" h="2.0" v="4.0" g="40.0" n="30.0">
 	</size>
 	<!--
 	Wheel radius. Can be different for each one.
@@ -51,9 +51,9 @@
 		not exist, the directory is created.
 	- height, width: Image size, in pixels.
 	-->
-	<optimization min="100.0" max="105.0" res="2.0"
+	<optimization min="100.0" max="110.0" res="2.0"
 		dir="/home/pedrogil/Imagenes/wheelchair/optimizacion" 
-		height="600" width="600"/>
+		height="600" width="800"/>
 	<!--
 	Not used.
 	-->
@@ -68,7 +68,7 @@
 		- d: posterior landing length, so last step width is w+d
 	-->
 	<stairs landing="250.0">
-		<dimensions N="5" w="65.0" h="20.0" d="150.0"/>
+		<dimensions N="5" w="65.0" h="15.0" d="150.0"/>
 		<dimensions N="5" w="65.0" h="-20.0" d="150.0"/>
 	</stairs>
 </StairsClimbing>
