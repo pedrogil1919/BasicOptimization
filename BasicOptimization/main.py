@@ -50,7 +50,7 @@ optimization = read_optimization_data(settings_name)
 resolution = optimization['res']
 min_size = optimization['min']
 max_size = optimization['max']
-size = (optimization['height'], optimization['height'])
+size = (optimization['width'], optimization['height'])
 # Create directory
 directory = optimization['dir']
 try:
@@ -62,13 +62,20 @@ except FileExistsError:
 sizes = numpy.arange(min_size, max_size + resolution, resolution)
 counter = 0
 time_title = "t (" + sample_data['time_units'] + ")"
+x_title = "a (%s)" % units
+y_title = "c (%s)" % units
 for s in sizes:
-    print(s)
-    A, C, T = compute_mesh_time(
-        s, structure_size, radius, gaps, stairs, simulator, resolution)
+    print("Size %.2f / %.2f:" % (s, max_size))
+
+    try:
+        A, C, T = compute_mesh_time(
+            s, structure_size, radius, gaps, stairs, simulator, resolution)
+    except ValueError:
+        continue
 
     size_title = "L = %.2f %s" % (s, units)
-    contour_img = save_contours(A, C, T, size, size_title, time_title, 100)
+    contour_img = save_contours(A, C, T, size, size_title,
+                                time_title, x_title, y_title, 100)
     aux_name = "image%05i.png" % counter
     counter += 1
     image_name = os.path.join(directory, aux_name)

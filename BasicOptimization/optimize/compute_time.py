@@ -97,7 +97,8 @@ def compute_mesh_time(size, structure_size, radius, gaps, stairs_list,
     return A, C, T
 
 
-def save_contours(A, C, T, size, size_title, time_title, dpi):
+def save_contours(A, C, T, size, size_title,
+                  time_title, x_title, y_title, dpi):
     """Save a contour image to a png file.
 
     """
@@ -107,8 +108,8 @@ def save_contours(A, C, T, size, size_title, time_title, dpi):
     fig, ax = plt.subplots(figsize=(size[0] / dpi, size[1] / dpi), dpi=dpi)
     cs = ax.contourf(A, C, T)
     ax.set_title(size_title)
-    ax.set_xlabel("L_a")
-    ax.set_ylabel("L_c")
+    ax.set_xlabel(x_title)
+    ax.set_ylabel(y_title)
     # # And show the colorbar at the figure right.
     bar = fig.colorbar(cs)
     bar.ax.set_ylabel(time_title)
