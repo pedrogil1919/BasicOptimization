@@ -100,10 +100,12 @@ def compute_mesh_time(size, structure_size, radius, gaps, stairs_list,
                     for stair in stairs_list:
                         structure = base.Base(structure_size, radius, stair)
                         total_time += compute_time(structure, simulator)
-                except Exception:
+                except ValueError:
                     total_time = numpy.nan
                     logging.error("s: %.2f (a: %.2f, b: %.2f, c: %.2f)" %
                                   (size, abct[0], abct[1], abct[2]))
+            # print(structure_size['a'],
+            #       structure_size['b'], structure_size['c'], total_time)
             abct[3] = total_time
     print("\n-----")
     # Extract the matrices corresponding to the a and c dimensions (b is not
